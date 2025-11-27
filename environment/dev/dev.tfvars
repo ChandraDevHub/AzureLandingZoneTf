@@ -1,3 +1,13 @@
+# metadata
+org           = "contoso"
+project       = "erp"
+environment   = "dev"
+
+# azure
+subscription_id = "10faea19-035c-4025-9136-201ca3e88e6d"
+tenant_id       = "d8f47671-2a52-4a2e-badb-9fb565a090c1"
+
+# core infra variables
 resource_groups = {
   dev_rg1 = {
     name       = "dev_rg_it"

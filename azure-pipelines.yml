@@ -1,0 +1,57 @@
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: ChandraDevHub/terraform-templates
+      ref: refs/tags/v1.0.0
+
+stages:
+
+# ------------------------ #
+# 🔍 LINT / SECURITY STAGE #
+# ------------------------ #
+- stage: Lint
+  displayName: "Static Code Analysis - tfsec"
+  jobs:
+  - template: pipeline-templates/lint-tfsec.yml@templates
+    parameters:
+      workingDirectory: 'AzureLandingZone/environments/dev'   # folder where .tf files exist
+      tfsecVersion: 'latest'
+
+
+# ------------------------ #
+# 🔧 INIT STAGE            #
+# ------------------------ #
+- stage: Init
+  displayName: "Terraform Init"
+  dependsOn: Lint
+  jobs:
+  - template: pipeline-templates/init-terraform.yml@templates
+    parameters:
+      workingDirectory: 'AzureLandingZone/environments/dev'
+
+
+# ------------------------ #
+# 📘 PLAN STAGE            #
+# ------------------------ #
+- stage: Plan
+  displayName: "Terraform Plan"
+  dependsOn: Init
+  jobs:
+  - template: pipeline-templates/plan-terraform.yml@templates
+    parameters:
+      workingDirectory: 'AzureLandingZone/environments/dev'
+      varFile: 'AzureLandingZone/parameters/dev.tfvars'
+
+
+# ------------------------ #
+# 🚀 APPLY STAGE           #
+# ------------------------ #
+- stage: Apply
+  displayName: "Terraform Apply"
+  dependsOn: Plan
+  jobs:
+  - template: pipeline-templates/apply-terraform.yml@templates
+    parameters:
+      workingDirectory: 'AzureLandingZone/environments/dev'
+      varFile: 'AzureLandingZone/parameters/dev.tfvars'

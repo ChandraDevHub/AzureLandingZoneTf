@@ -1,0 +1,30 @@
+trigger: 
+  - main
+pool: dhool-wale-laptops
+stages:
+  - stage: terraforminit
+    displayName: TERRAFORM INIT
+    jobs: 
+    - job: TerraformInstall
+      steps:
+      - task: TerraformInstaller@1
+        inputs:
+          terraformVersion: 'latest'
+    - job: terraforminit
+      steps:
+      - task: TerraformTask@5
+        inputs:
+          provider: 'azurerm'
+          command: 'init'
+          backendServiceArm: 'pipelineServiceConnection'
+          backendAzureRmOverrideSubscriptionID: '10faea19-035c-4025-9136-201ca3e88e6d'
+          backendAzureRmResourceGroupName: 'rg-pillu-dev-todoapp-01'
+          backendAzureRmStorageAccountName: 'pipelinepracticestgacct'
+          backendAzureRmContainerName: 'ppcontainer'
+          backendAzureRmKey: 'terraform.tfstate'
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: '$(Pipeline.Workspace)'
+          artifact: 'terraform-config'
+          publishLocation: 'pipeline'
+        

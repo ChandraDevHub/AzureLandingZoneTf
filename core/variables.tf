@@ -1,3 +1,44 @@
+###############################
+#   Organization Metadata
+###############################
+
+variable "org" {
+  description = "Organization or company short code (e.g., contoso, msft)"
+  type        = string
+}
+
+variable "project" {
+  description = "Project/application name (e.g., erp, billing, portal)"
+  type        = string
+}
+
+variable "environment" {
+  description = "Deployment environment (dev, test, prod)"
+  type        = string
+}
+
+
+
+###############################
+#   Azure Authentication
+###############################
+
+variable "subscription_id" {
+  description = "Azure Subscription ID"
+  type        = string
+}
+
+variable "tenant_id" {
+  description = "Azure Tenant ID"
+  type        = string
+}
+
+
+
+###############################
+#   Core Infra Variables
+###############################
+
 variable "resource_groups" {
   description = "resource groups"
   type = map(object({
