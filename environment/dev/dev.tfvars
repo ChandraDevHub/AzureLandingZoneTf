@@ -1,5 +1,5 @@
 # metadata
-org           = "contoso"
+org           = "ChandraDevHub"
 project       = "erp"
 environment   = "dev"
 
